@@ -8,14 +8,19 @@
 
 #import "LLGAppDelegate.h"
 
+#import "LLGViewController.h"
+
 @implementation LLGAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
-{
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+
+    UITableViewController *viewController = [[LLGViewController alloc] initWithStyle:UITableViewStylePlain];
+    UINavigationController* navigationController = [[UINavigationController alloc] initWithRootViewController:viewController];
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.rootViewController = navigationController;
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
