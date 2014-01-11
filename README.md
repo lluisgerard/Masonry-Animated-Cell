@@ -3,7 +3,6 @@ Animating Cells With Masonry (Auto Layout)
 
 ![](https://github.com/lluisgerard/Masonry-Animated-Cell/raw/master/images/growBarAnimation.gif)
 
-Example using Masonry https://github.com/cloudkite/Masonry to animate a view using constraints inside a cell.
 
 
 The MIT License (MIT)

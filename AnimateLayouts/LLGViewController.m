@@ -35,7 +35,7 @@
     if (!cell) cell = [[LLGCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     
     cell.titleLabel.text = [NSString stringWithFormat:@"Cell number %ld", (long)indexPath.row];
-    cell.percentage = indexPath.row % 101;
+    cell.percentage = 100 - (indexPath.row % 101);
     
     return cell;
 }
