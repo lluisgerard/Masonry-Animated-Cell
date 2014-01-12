@@ -62,54 +62,30 @@
     self.animateConstraint.equalTo(@0);
     [self layoutIfNeeded];
 
-    /////////////////////////////
-    // Block with the animation
-    void(^growBlock)() = ^() {
-        
-        if (self.frame.size.width == 0) {
-            NSLog(@"Warning :: Frame size can't be zero");
-            return;
-        };
-
-        float max = 100; // 100 is the maximum number for a percentage
-        float value = _percentage;
-        float grade = max / value; // Calculate the grade (divide)
-        
-        // Show value on label
-        self.numberLabel.text = [NSString stringWithFormat:@"%i%%", (int)value];
-
-        // Zero means that we don't need to animate (we are done)
-        if (grade == 0) return;
-
-        // For greater numbers animate using view width
-        float width = self.frame.size.width / grade;
-        self.animateConstraint.equalTo(@(width));
-        [UIView animateWithDuration:1.0f
-                              delay:0.0f
-             usingSpringWithDamping:0.4f
-              initialSpringVelocity:0.9f
-                            options:UIViewAnimationOptionCurveEaseInOut
-                         animations:^{
-                             [self layoutIfNeeded]; // Autolayout way to animate
-                         } completion:^(BOOL finished) {
-
-                         }];
-    };
+    float max = 100; // 100 is the maximum number for a percentage
+    float value = _percentage;
+    float grade = max / value; // Calculate the grade (divide)
     
-    /////////////////////////////////////////////////////////////
-    // Always but the first time we just trigger the animation
-    if (_onceToken != 0) growBlock();
-    
-    /////////////////////////////////////////////////////////////////////////////////
-    // Just for the first time (without the dispatch_after you can't see the animation)
-    dispatch_once(&_onceToken, ^{
-        NSLog(@"First instantiation!");
-        double delayInSeconds = 0.0;
-        dispatch_time_t popTime = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delayInSeconds * NSEC_PER_SEC));
-        dispatch_after(popTime, dispatch_get_main_queue(), ^(void){
-            growBlock();
-        });
-    });
+    // Show value on label
+    self.numberLabel.text = [NSString stringWithFormat:@"%i%%", (int)value];
+
+    // Zero means that we don't need to animate (we are done)
+    if (grade == 0) return;
+
+    // For greater numbers animate using view width
+    float width = self.frame.size.width / grade;
+    self.animateConstraint.equalTo(@(width));
+    [self.numberLabel sizeToFit];
+    [UIView animateWithDuration:1.0f
+                          delay:0.0f
+         usingSpringWithDamping:0.4f
+          initialSpringVelocity:0.9f
+                        options:UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         [self layoutIfNeeded]; // Autolayout way to animate
+                     } completion:^(BOOL finished) {
+
+                     }];
 
 }
 
