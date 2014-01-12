@@ -50,15 +50,6 @@
     return self;
 }
 
-#pragma mark - Layout Subviews
-- (void)layoutSubviews {
-    [super layoutSubviews];
-    
-    // Set the percentage to the child view (that triggers the animation)
-    [self.animatedView setPercentage:_percentage];
-
-}
-
 #pragma mark - Public methods
 
 // Here I usually set the model's class but we only have percentage here :)
@@ -66,9 +57,8 @@
     
     _percentage = percentage;
 
-    // This will set the layout and call the method layoutSubviews above.
-    // There we will finally set the percentage to the child view.
-    [self setNeedsLayout];
+    // Set the percentage to the child view (that triggers the animation)
+    [self.animatedView setPercentage:_percentage];
 
 }
 

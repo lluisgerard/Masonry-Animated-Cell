@@ -51,42 +51,49 @@
     return self;
 }
 
-#pragma mark - Public methods
-
-- (void)setPercentage:(float)percentage {
+- (void)layoutSubviews {
+    [super layoutSubviews];
     
-    _percentage = percentage;
-    
-    /////////////////////////////
-    // Back to first state
-    self.animateConstraint.equalTo(@0);
-    [self layoutIfNeeded];
-
     float max = 100; // 100 is the maximum number for a percentage
     float value = _percentage;
     float grade = max / value; // Calculate the grade (divide)
     
     // Show value on label
     self.numberLabel.text = [NSString stringWithFormat:@"%i%%", (int)value];
-
+    
     // Zero means that we don't need to animate (we are done)
     if (grade == 0) return;
-
+    
     // For greater numbers animate using view width
     float width = self.frame.size.width / grade;
     self.animateConstraint.equalTo(@(width));
-    [self.numberLabel sizeToFit];
     [UIView animateWithDuration:1.0f
                           delay:0.0f
          usingSpringWithDamping:0.4f
           initialSpringVelocity:0.9f
-                        options:UIViewAnimationOptionCurveEaseInOut
+                        options:UIViewAnimationOptionCurveEaseInOut | UIViewAnimationOptionAllowUserInteraction
                      animations:^{
                          [self layoutIfNeeded]; // Autolayout way to animate
                      } completion:^(BOOL finished) {
-
+                         
                      }];
+    
+}
 
+#pragma mark - Public methods
+
+- (void)setPercentage:(float)percentage {
+    
+    /////////////////////////////
+    // Back to first state
+    self.animateConstraint.equalTo(@0);
+    [self setNeedsLayout]; // Force layout to 0
+
+    ///////////////////////////////
+    // Animate the new percentage! (at some point, this calls layoutSubviews that will animate it!)
+    _percentage = percentage;
+    [self setNeedsLayout];
+    
 }
 
 #pragma mark - Instantiations
@@ -96,7 +103,7 @@
         _numberLabel = UILabel.new;
         [_numberLabel setTextAlignment:NSTextAlignmentRight];
         [_numberLabel setTextColor:[UIColor whiteColor]];
-        [_numberLabel setTintAdjustmentMode:UIViewTintAdjustmentModeDimmed];
+        [_numberLabel setFont:[UIFont systemFontOfSize:10.0f]];
     }
     return _numberLabel;
 }
