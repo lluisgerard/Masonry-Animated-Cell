@@ -29,8 +29,8 @@
     [self setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     // Add Views
-    [self addSubview:self.titleLabel];
-    [self addSubview:self.animatedView];
+    [self.contentView addSubview:self.titleLabel];
+    [self.contentView addSubview:self.animatedView];
     
     // Constraints
     UIEdgeInsets padding = UIEdgeInsetsMake(10, 15, 10, 10);
